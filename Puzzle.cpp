@@ -62,6 +62,24 @@ bool Puzzle::insert(puzzle_word word) {
 	return true;
 }
 
+bool Puzzle::remove(puzzle_word word) {
+	for (int i = 0; i < puzzle_word_vector.size(); i++) {
+		if (word == puzzle_word_vector[i]) {
+			puzzle_word_vector.erase(puzzle_word_vector.begin() + i);
+		}
+	}
+	this->recreate_verify_2d_vector();
+}
+
+bool Puzzle::recreate_verify_2d_vector() {
+	two_d_puzzle_vector = {};
+	vector<puzzle_word> existing_puzzle_words = puzzle_word_vector;
+	puzzle_word_vector = {};
+	for (const puzzle_word new_puzzle_word : existing_puzzle_words) {
+		this->insert(new_puzzle_word);
+	}
+}
+
 bool Puzzle::check_word(puzzle_word word) {
 	int x_index = word.positionX - 'A';
 	int y_index = word.positionY - 'a';
@@ -81,7 +99,6 @@ bool Puzzle::check_word(puzzle_word word) {
 }
 
 vector<puzzle_word> Puzzle::possible_words(vector<string> dictionary_words) {
-	//pode so receber o vetor de palavras
 	vector<puzzle_word> words;
 	while (words.size() < 10) {
 		int random_x = rand() % size_x - 1;
@@ -109,7 +126,15 @@ vector<puzzle_word> Puzzle::possible_words(vector<string> dictionary_words) {
 void Puzzle::fill() {
 	for (int x = 0; x < size_x; x++) {
 		for (int y = 0; y < size_y; y++) {
-			if (two_d_puzzle_vector[x][y] == ' ') two_d_puzzle_vector[x][y] = '#';
+			if (two_d_puzzle_vector[x][y] == ' ') { 
+				two_d_puzzle_vector[x][y] = '#';
+				puzzle_word new_puzzle_word;
+				new_puzzle_word.positionY = y;
+				new_puzzle_word.positionX = x;
+				new_puzzle_word.direction = 'H';
+				new_puzzle_word.word_string = "#";
+				puzzle_word_vector.push_back(new_puzzle_word);
+			}
 		}
 	}
 }
@@ -146,7 +171,7 @@ Puzzle Puzzle::load(istream file) {
 					new_puzzle_word.positionY = line[0];
 					new_puzzle_word.positionX = line[1];
 					new_puzzle_word.direction = line[2];
-					new_puzzle_word.word_string = line[5]; //TODO
+					new_puzzle_word.word_string = line.substr(4, line.size() - 4);
 					loaded_puzzle_words.push_back(new_puzzle_word);
 				}
 			}
