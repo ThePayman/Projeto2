@@ -17,14 +17,12 @@ public:
 	//Default constructor
 	Dictionary();
 
-	//Overload constructor
-	Dictionary(string);
-
 	//Destructor
 	~Dictionary();
 
 	//Acessor functions
-	vector<string> read_dictionary(ifstream);
+	vector<string> read_dictionary();
+	vector<string> usable_words_sort();
 
 
 private:
