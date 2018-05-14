@@ -18,6 +18,8 @@ public:
 	Puzzle(int size_x, int size_y, string name);
 	Puzzle(int size_x, int size_y, string name, vector<puzzle_word> load_vector);
 	bool insert(puzzle_word word);
+	bool remove(puzzle_word word);
+	bool recreate_verify_2d_vector();
 	bool check_word(puzzle_word word);
 	vector<puzzle_word> possible_words(vector<string> dictionary_words);
 	void fill();
