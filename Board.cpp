@@ -15,20 +15,29 @@ void Board::create_puzzle() {
 		cin.clear();
 		cin >> line_size >> column_size;
 	}
-	for (unsigned int i = 0; i < line_size; i++){	//for cicle to print the lines
-		line.push_back(char(97 + i));
-		for (unsigned int i = 0; i < column_size; i++) {	//for cicle to print the columns
-			column.push_back(char(65 + i));
-		}
+
+
+	board[line_size][1 + 2*column_size];
+	board[0].push_back(' ');
+
+	for (unsigned int i = 0; i < line_size; i++) {
+		board[0].push_back(char(32));
+		board[0].push_back(char(97 + i));
 	}
-	for (unsigned int i = 0; i < line.size(); i++) {
-		cout << line[i];
-	}
-	cout << endl;
-	for (unsigned int i = 0; i < column.size(); i++) {
-		cout << column[i] << endl;
+	for (unsigned int i = 0; i < column_size; i++) {
+			board[i].push_back(char(65 + i));
 	}
 }
 
-Board::~Board(){ //save the board and exit
+void Board::show_puzzle() {
+	for (unsigned int y = 0; y < board.size(); y++){
+		for (unsigned int x = 0; x < board[0].size(); x++){
+			cout << board[y][x];
+		}
+		cout << endl;
+	}
+}
+
+Board::~Board(){
+	//save the board and exit
 }
