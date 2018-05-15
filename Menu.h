@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 class Menu
 {
 public:
@@ -18,7 +17,7 @@ public:
 	~Menu();
 
 private:
-	char option;
+	string option;
 	
 };
 

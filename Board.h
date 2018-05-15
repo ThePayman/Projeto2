@@ -4,6 +4,9 @@
 #include "fstream"
 #include "string"
 #include "vector"
+#include<ctime>
+#include<cstdlib>
+#include<windows.h>
 
 using namespace std;
 
@@ -14,10 +17,13 @@ public:
 
 	void create_puzzle();
 
+	void show_puzzle();
+
 	~Board();
+
 
 private:
 	unsigned int line_size, column_size;
-	vector<char> line, column;
+	vector<vector<char>> board;
 };
 
