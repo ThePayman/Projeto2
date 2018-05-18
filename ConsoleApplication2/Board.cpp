@@ -101,9 +101,9 @@ void Board::show_board() {
 }
 
 bool Board::update_board(vector<vector<char>> two_d_vector){
-	for (unsigned int i = 0; i < two_d_vector.size(); i++){
+	for (unsigned int x = 0; x < two_d_vector.size(); x++){
 		for (unsigned int y = 0; y < two_d_vector[0].size(); y++) {
-			board[1 + i][1 + y] = two_d_vector[i][y];
+			board[1 + x][1 + y] = two_d_vector[x][y];
 			}
 	}
 	return true;

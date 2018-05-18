@@ -87,6 +87,7 @@ void Menu::ask_position_and_word(Puzzle* puzzle){
 		board->show_board();
 		this->ask_position_and_word(puzzle);
 	}
+	return;
 }
 
 bool Menu::get_dictionary() {
