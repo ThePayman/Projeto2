@@ -55,12 +55,13 @@ void setcolor(unsigned int color, unsigned int background_color) { HANDLE hCon =
 Board::Board(){
 }
 
-void Board::create_puzzle() {
+void Board::create_board() {
 	
 	cout <<
 		"What is the board size (lines and columns separated by a space)?" << endl;
 	cin >> line_size >> column_size;
-	while ( line_size <= 0 || column_size <= 0){
+
+	while (line_size <= 0 || column_size <= 0) {
 		cout << "Invalid board size, please input new values that are greater than 0." << endl;
 		cin.clear();
 		cin >> line_size >> column_size;
@@ -84,20 +85,28 @@ void Board::create_puzzle() {
 	board[0][0] = ' ';
 }
 
-void Board::show_puzzle() {
+void Board::show_board() {
 
 	for (unsigned int x = 0; x < board.size(); x++){
 		for (unsigned int y = 0; y < board[0].size(); y++){
 			if (x == 0) { setcolor(4); }
 			if (y == 0) { setcolor(4); }
 			if (x != 0 && y != 0) { setcolor(0,7); }
-			
 			if (y == (board[0].size() - 1)) { cout << " " << board[x][y] << " "; }
 			else { cout << " " << board[x][y]; }
 		}
 		cout << endl;
 		setcolor(7);
 	}
+}
+
+bool Board::update_board(vector<vector<char>> two_d_vector){
+	for (unsigned int i = 0; i < two_d_vector.size(); i++){
+		for (unsigned int y = 0; y < two_d_vector[0].size(); y++) {
+			board[1 + i][1 + y] = two_d_vector[i][y];
+			}
+	}
+	return true;
 }
 
 Board::~Board(){

@@ -15,7 +15,7 @@ public:
 	ifstream dictionary_file;
 
 	//Default constructor
-	Dictionary();
+	Dictionary(ifstream* dictionary_file);
 
 	//Destructor
 	~Dictionary();

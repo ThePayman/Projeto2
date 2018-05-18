@@ -2,13 +2,8 @@
 #include "Dictionary.h"
 
 
-Dictionary::Dictionary() {
-	cout << "What is the dictionary file name?" << endl;
-	cin >> dictionary_file_name;
-	dictionary_file.open(dictionary_file_name);
-	if (!dictionary_file.is_open()) {
-		cout << "Invalid File" << endl;
-	}
+Dictionary::Dictionary(ifstream* dictionary_file) {
+	
 
 }
 
