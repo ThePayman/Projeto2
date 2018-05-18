@@ -2,6 +2,7 @@
 #include "Menu.h"
 #include "Board.h"
 #include "Dictionary.h"
+#include "Puzzle.h"
 
 
 
@@ -41,29 +42,65 @@ void Menu::Selection() {
 			<< "CREATE BOARD" << endl
 			<< "----------------------------------------" << endl;
 		
-		//Dictionary rosberg;
-		//rosberg.read_dictionary();
-		//rosberg.usable_words_sort();
 		
-		Board vettel;
-		vettel.create_puzzle();
-		vettel.show_puzzle();
+		//dictionary->read_dictionary();
+		if(!this->get_dictionary()) return;
+		//dictionary->usable_words_sort();
+		board = new Board();
+		board->create_board();
+		board->show_board();
+		
+		puzzle = new Puzzle(board->line_size, board->column_size, "", dictionary);
+
+		this->ask_position_and_word(puzzle);
+		
+
+		
+
 	}
 	else if(option == "2") {
-		//Board::something2
-		cout << "//Board::something2";
+		
 	}
 	else if(option == "0"){
-		Menu::~Menu();
+		this->~Menu();
 	}
 	else {
 		cout << endl;
 		cout << "Invalid input, please select a valid option." << endl;
 		cout << endl;
-		Menu::Selection();
+		this->Selection();
 	}
 
 }
 
+void Menu::ask_position_and_word(Puzzle* puzzle){
+	cout << "Position (LCD / CTRL-Z = stop)   ?" << endl;
+	cin >> position;
+	while (position != "^Z") {
+		cout << "Word ( - = remove / ? = help)   ?" << endl;
+		cin >> word;
+		for (const char word_char : word) {
+			toupper(word_char);
+		}
+		puzzle->insert_string(position, word);
+		board->update_board(puzzle->two_d_puzzle_vector);
+		board->show_board();
+		this->ask_position_and_word(puzzle);
+	}
+	return;
+}
+
+bool Menu::get_dictionary() {
+	cout << "What is the dictionary file name?" << endl;
+	cin >> dictionary_file_name;
+	dictionary_file = new ifstream();
+	dictionary_file->open(dictionary_file_name);
+	if (!dictionary_file->is_open()) {
+		cout << "Invalid File" << endl;
+		return this->get_dictionary();
+	}
+	dictionary = new Dictionary(dictionary_file);
+	return true;
+}
 
 Menu::~Menu(){}
