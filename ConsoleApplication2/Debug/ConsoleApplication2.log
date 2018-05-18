@@ -1,3 +1,12 @@
-﻿  Projeto2.cpp
-  ConsoleApplication2.vcxproj -> Z:\Documents\Projeto2\Debug\Projeto2.exe
-  ConsoleApplication2.vcxproj -> Z:\Documents\Projeto2\Debug\Projeto2.pdb (Partial PDB)
+﻿  Puzzle.cpp
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(23): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(25): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(35): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(36): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(40): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(52): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(79): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(107): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(142): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\puzzle.cpp(143): warning C4018: '<': signed/unsigned mismatch
+  ConsoleApplication2.vcxproj -> C:\Users\Afonso Sá\Desktop\Afonso\FEUP\PROG\Projeto2\Debug\Projeto2.exe
