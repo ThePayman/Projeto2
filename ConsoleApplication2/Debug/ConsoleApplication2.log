@@ -1,3 +1,9 @@
-﻿  Projeto2.cpp
-  ConsoleApplication2.vcxproj -> Z:\Documents\Projeto2\Debug\Projeto2.exe
-  ConsoleApplication2.vcxproj -> Z:\Documents\Projeto2\Debug\Projeto2.pdb (Partial PDB)
+﻿  Board.cpp
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\board.cpp(69): warning C4018: '<': signed/unsigned mismatch
+c:\users\afonso sá\desktop\afonso\feup\prog\projeto2\consoleapplication2\board.cpp(71): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  Projeto2.cpp
+  Menu.cpp
+  Generating Code...
+  ConsoleApplication2.vcxproj -> C:\Users\Afonso Sá\Desktop\Afonso\FEUP\PROG\Projeto2\Debug\Projeto2.exe
