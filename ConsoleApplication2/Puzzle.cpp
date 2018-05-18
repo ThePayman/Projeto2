@@ -34,7 +34,7 @@ Puzzle::Puzzle(unsigned int set_size_x, unsigned int set_size_y, string set_name
 	name = set_name;
 	for (int x = 0; x < set_size_x; x++) {
 		for (int y = 0; y < set_size_y; y++) {
-			two_d_puzzle_vector[x][y] = ' ';
+			two_d_puzzle_vector[x][y] = '.';
 		}
 	}
 	for (int i = 0; i < load_vector.size(); i++) {
@@ -43,12 +43,20 @@ Puzzle::Puzzle(unsigned int set_size_x, unsigned int set_size_y, string set_name
 	}
 }
 bool Puzzle::insert(puzzle_word word) {
-	int x_index = word.positionX - 'a';
-	int y_index = word.positionY - 'A';
+	int y_index = word.positionX - 'a';
+	int x_index = word.positionY - 'A';
 	if (!check_word(word)) {
 		return false;
 	}
 	vector<vector<char>> new_two_d_puzzle_vector = two_d_puzzle_vector;
+	if (word.direction == 'H') {
+		if (y_index - 1 >= 0) if (new_two_d_puzzle_vector[x_index][y_index - 1] == '.') new_two_d_puzzle_vector[x_index][y_index-1] = '#';
+		if (y_index + word.word_string.size() < size_y) if(new_two_d_puzzle_vector[x_index][y_index + word.word_string.size()]) new_two_d_puzzle_vector[x_index][y_index + word.word_string.size()] = '#';
+	}
+	if (word.direction == 'V') {
+		if (x_index - 1 >= 0) if (new_two_d_puzzle_vector[x_index - 1][y_index] == '.') new_two_d_puzzle_vector[x_index - 1][y_index] = '#';
+		if (x_index + word.word_string.size() < size_x) if (new_two_d_puzzle_vector[x_index + word.word_string.size()][y_index]) new_two_d_puzzle_vector[x_index + word.word_string.size()][y_index] = '#';
+	}
 	for (int i = 0; i < word.word_string.size(); i++) {
 		char selected_vector_position = new_two_d_puzzle_vector[x_index][y_index];
 
@@ -56,8 +64,8 @@ bool Puzzle::insert(puzzle_word word) {
 		else {
 			new_two_d_puzzle_vector[x_index][y_index] = word.word_string[i];
 		}
-		if (word.direction == 'V') x_index++;
-		else if (word.direction == 'H') y_index++;
+		if (word.direction == 'H') y_index++;
+		else if (word.direction == 'V') x_index++;
 	}
 
 	two_d_puzzle_vector = new_two_d_puzzle_vector;
