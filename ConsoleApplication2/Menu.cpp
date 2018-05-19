@@ -61,7 +61,17 @@ void Menu::Selection() {
 
 	}
 	else if(option == "2") {
+		cout << "----------------------------------------" << endl
+			<< "EDIT LOADED BOARD" << endl
+			<< "----------------------------------------" << endl;
+		if (!this->get_dictionary()) return;
+
+		if (!this->get_board_file()) return;
 		
+		Puzzle::load( board_file , dictionary);
+		
+
+		return;
 	}
 	else if(option == "0"){
 		this->~Menu();
@@ -82,6 +92,14 @@ void Menu::ask_position_and_word(){
 	while (!cin.eof()) {
 		cout << "Position (LCD / CTRL-Z = stop)   ?" << endl;
 		cin >> position;
+		if (position.size() != 3) {
+			cout << "Invalid input, please input a valid position." << endl;
+			this->ask_position_and_word();
+		}
+		if (!(('a' <= position[0] && position[0] <= 'z') && ('A' <= position[1] && position[1] <= 'Z') && (position[2] == 'V' || position[2] == 'H'))) {
+			cout << "Invalid input, please input a valid position." << endl;
+			this->ask_position_and_word();
+		}
 		cout << "Word ( - = remove / ? = help)   ?" << endl;
 		cin >> word;
 		if (cin.eof()) continue;
@@ -112,7 +130,7 @@ bool Menu::ask_puzzle_options() {
 	}
 	if (option == "2") {
 		//Needs to use pointers
-		ofstream save_file = get_output_file();
+		ofstream* save_file = get_output_file();
 		puzzle->save(save_file);
 	}
 	if (option == "0") {
@@ -139,13 +157,13 @@ ifstream Menu::get_input_file() {
 /*
 	Loops until a valid output file is open.
 */
-ofstream Menu::get_output_file() {
+ofstream* Menu::get_output_file() {
 	string file_name;
 	cout << "What is the file name?" << endl;
 	cin >> file_name;
-	ofstream file;
-	file.open(file_name);
-	if (!file.is_open()) {
+	ofstream* file = new ofstream();
+	file->open(file_name);
+	if (!file->is_open()) {
 		cout << "Invalid File" << endl;
 		return this->get_output_file();
 	}
@@ -166,6 +184,18 @@ bool Menu::get_dictionary() {
 		return this->get_dictionary();
 	}
 	dictionary = new Dictionary(dictionary_file);
+	return true;
+}
+
+bool Menu::get_board_file() {
+	cout << "What is the board file name?" << endl;
+	cin >> board_file_name;
+	board_file = new ifstream();
+	board_file->open(board_file_name);
+	if (!board_file->is_open()) {
+		cout << "Invalid File" << endl;
+		return this->get_board_file();
+	}
 	return true;
 }
 
