@@ -27,7 +27,9 @@ Menu::Menu(){
 		<< "----------------------------------------"
 		<< endl;
 }
-
+/*
+	Main Menu function. Gives general options to the user.
+*/
 void Menu::Selection() {
 	cout << "Choose from the following options:" << endl
 		<< "1 - Create Puzzle" << endl
@@ -52,9 +54,9 @@ void Menu::Selection() {
 		
 		puzzle = new Puzzle(board->line_size, board->column_size, "", dictionary);
 
-		this->ask_position_and_word(puzzle);
+		this->ask_position_and_word();
 		
-
+		return;
 		
 
 	}
@@ -72,24 +74,88 @@ void Menu::Selection() {
 	}
 
 }
-
-void Menu::ask_position_and_word(Puzzle* puzzle){
-	cout << "Position (LCD / CTRL-Z = stop)   ?" << endl;
-	cin >> position;
-	while (position != "^Z") {
+/*
+	Asks a position and word to insert into a position on the puzzle. Loops until EOF of Cin.
+*/
+void Menu::ask_position_and_word(){
+	string position = "";
+	while (!cin.eof()) {
+		cout << "Position (LCD / CTRL-Z = stop)   ?" << endl;
+		cin >> position;
 		cout << "Word ( - = remove / ? = help)   ?" << endl;
 		cin >> word;
+		if (cin.eof()) continue;
 		for (const char word_char : word) {
 			toupper(word_char);
 		}
 		puzzle->insert_string(position, word);
 		board->update_board(puzzle->two_d_puzzle_vector);
 		board->show_board();
-		this->ask_position_and_word(puzzle);
 	}
-	return;
+	cin.clear();
+	this->ask_puzzle_options();
 }
 
+/*
+	Puzzle Menu function. Gives options especific to a puzzle to the user.
+*/
+bool Menu::ask_puzzle_options() {
+	cout << "Choose from the following options:" << endl
+	<< "1 - Continue editing Puzzle" << endl
+	<< "2 - Save Puzzle" << endl
+	<< "0 - Exit" << endl
+	<< endl
+	<< "What is your option?" << endl;
+	cin >> option;
+	if (option == "1") {
+		this->ask_position_and_word();
+	}
+	if (option == "2") {
+		//Needs to use pointers
+		ofstream save_file = get_output_file();
+		puzzle->save(save_file);
+	}
+	if (option == "0") {
+		return false;
+	}
+	return true;
+}
+/*
+	Loops until a valid input file is open.
+*/
+ifstream Menu::get_input_file() {
+	string file_name;
+	cout << "What is the file name?" << endl;
+	cin >> file_name;
+	ifstream file;
+	file.open(file_name);
+	if (!file.is_open()) {
+		cout << "Invalid File" << endl;
+		return this->get_input_file();
+	}
+	return file;
+}
+
+/*
+	Loops until a valid output file is open.
+*/
+ofstream Menu::get_output_file() {
+	string file_name;
+	cout << "What is the file name?" << endl;
+	cin >> file_name;
+	ofstream file;
+	file.open(file_name);
+	if (!file.is_open()) {
+		cout << "Invalid File" << endl;
+		return this->get_output_file();
+	}
+	return file;
+}
+#pragma endregion
+
+/*
+	Loops until a valid dictionary file is open and creates the dictionary object.
+*/
 bool Menu::get_dictionary() {
 	cout << "What is the dictionary file name?" << endl;
 	cin >> dictionary_file_name;

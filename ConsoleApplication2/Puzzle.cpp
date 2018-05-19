@@ -42,6 +42,10 @@ Puzzle::Puzzle(unsigned int set_size_x, unsigned int set_size_y, string set_name
 		this->insert(word);
 	}
 }
+/*
+Inserts an word into the puzzle's puzzle_word vector and two dimentional vector.
+Param: puzzle_word word - The instance of puzzle_word struct to be added to the puzzle. 
+*/
 bool Puzzle::insert(puzzle_word word) {
 	int y_index = word.positionX - 'a';
 	int x_index = word.positionY - 'A';
@@ -73,6 +77,12 @@ bool Puzzle::insert(puzzle_word word) {
 	return true;
 }
 
+/*
+Inserts a word into the puzzle's puzzle_word vector and two dimentional vector.
+
+Param: string puzzle_word_pos - A string of lenght 3 containing the X, Y and Direction of the word to insert.
+	   string puzzle_word_pos - The string to insert.
+*/
 bool Puzzle::insert_string(string puzzle_word_pos, string puzzle_word_string) {
 	puzzle_word new_puzzle_word;
 	new_puzzle_word.positionX = puzzle_word_pos[0];
@@ -83,6 +93,10 @@ bool Puzzle::insert_string(string puzzle_word_pos, string puzzle_word_string) {
 	return true;
 }
 
+/*
+Removes a puzzle_word from the puzzle's puzzle_word vector and the two dimentional vector.
+Param: puzzle_word word - The puzzle_word struct to be removed to the puzzle. 
+*/
 bool Puzzle::remove(puzzle_word word) {
 	for (int i = 0; i < puzzle_word_vector.size(); i++) {
 		if (word.direction == puzzle_word_vector[i].direction && word.positionX == puzzle_word_vector[i].positionX && word.positionY == puzzle_word_vector[i].positionY && word.word_string == puzzle_word_vector[i].word_string) {
@@ -93,6 +107,9 @@ bool Puzzle::remove(puzzle_word word) {
 	return true;
 }
 
+/*
+Recreates the two dimentional vector using the puzzle_word vector.
+*/
 bool Puzzle::recreate_verify_2d_vector() {
 	two_d_puzzle_vector = {};
 	vector<puzzle_word> existing_puzzle_words = puzzle_word_vector;
@@ -103,6 +120,10 @@ bool Puzzle::recreate_verify_2d_vector() {
 	return true;
 }
 
+/*
+Verifies if a puzzle_word can be added to the puzzle.
+Param: puzzle_word word - The instance of puzzle_word struct to test.
+*/
 bool Puzzle::check_word(puzzle_word word) {
 	int x_index = word.positionX - 'a';
 	int y_index = word.positionY - 'A';
@@ -121,7 +142,11 @@ bool Puzzle::check_word(puzzle_word word) {
 	return true;
 }
 
-vector<puzzle_word> Puzzle::possible_words(vector<string> dictionary_words) {
+/*
+Creates a list of ten possible puzzle_words that fit the current puzzle.
+Return: vector<puzzle_word> - List of words found to insert into the puzzle.
+*/
+vector<puzzle_word> Puzzle::possible_words() {
 	vector<puzzle_word> words;
 	while (words.size() < 10) {
 		int random_x = rand() % size_x - 1;
@@ -129,7 +154,7 @@ vector<puzzle_word> Puzzle::possible_words(vector<string> dictionary_words) {
 		int random_direction = rand() % 1;
 		if (isalpha(two_d_puzzle_vector[random_x][random_y])) {
 			char initial_letter = two_d_puzzle_vector[random_x][random_y];
-			for (const string dictionary_word : dictionary_words) {
+			for (const string dictionary_word : dictionary->usable_words) {
 				if (dictionary_word[0] == initial_letter) {
 					//Get a random word to test
 					string random_word = "";//
@@ -146,6 +171,9 @@ vector<puzzle_word> Puzzle::possible_words(vector<string> dictionary_words) {
 	return words;
 }
 
+/*
+Fills all non used space of the puzzle with #.
+*/
 void Puzzle::fill() {
 	for (int x = 0; x < size_x; x++) {
 		for (int y = 0; y < size_y; y++) {
@@ -162,8 +190,14 @@ void Puzzle::fill() {
 	}
 }
 
-void Puzzle::save(Puzzle puzzle_object, ostream output_file) {
-	for (const puzzle_word puzzle_word : puzzle_object.puzzle_word_vector) {
+/*
+Saves the puzzle into a given file.
+Param: ostream output_file - The file to output to. 
+*/
+bool Puzzle::save(ostream output_file) {
+	//needs to save the name of the dictionary folder.
+	//needs to save the board aspect as well. Adapt board show function
+	for (const puzzle_word puzzle_word : puzzle_word_vector) {
 		output_file << puzzle_word.positionX << puzzle_word.positionY << puzzle_word.direction << " " << puzzle_word.word_string;
 	}
 }
