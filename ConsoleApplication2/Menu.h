@@ -37,6 +37,6 @@ private:
 	string dictionary_file_name;
 	ifstream* dictionary_file;
 	string board_file_name;
-	
+	puzzle_word puzzle_word;
 };
 

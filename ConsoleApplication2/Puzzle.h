@@ -26,7 +26,7 @@ public:
 	vector<puzzle_word> possible_words();
 	void fill();
 	bool save(ostream* output_file);
-	static Puzzle load(istream* inputput_file, Dictionary* dictionary_object);
+	static Puzzle load(istream*v inputput_file, Dictionary* dictionary_object);
 
 	vector<vector<char>> two_d_puzzle_vector;
 	ifstream file;
