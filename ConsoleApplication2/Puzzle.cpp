@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Puzzle.h"
 #include "Dictionary.h"
+
 /*
 Class Puzzle {
 create(size_x,size_y,name,vector<puzzle_word> load = none) -- O load permite carregar um puzzle pre criado
@@ -128,14 +129,14 @@ bool Puzzle::check_word(puzzle_word word) {
 	int x_index = word.positionX - 'a';
 	int y_index = word.positionY - 'A';
 	if (word.direction == 'V') {
-		if (x_index + word.word_string.size() > size_x +1) return false;
+		if (x_index + word.word_string.size() > size_x + 1)cout << endl; cout << "Invalid word or postion." << endl; cout << endl; return false;
 	}
 	if (word.direction == 'H') {
-		if (y_index + word.word_string.size() > size_y) return false;
+		if (y_index + word.word_string.size() > size_y)cout << endl; cout << "Invalid word or postion." << endl; cout << endl; return false;
 	}
 	for (int i = 0; i < word.word_string.size(); i++) {
 		char selected_vector_position = two_d_puzzle_vector[x_index][y_index];
-		if (selected_vector_position != word.word_string[i] && selected_vector_position != '.') return false;
+		if (selected_vector_position != word.word_string[i] && selected_vector_position != '.') cout << endl; cout << "Invalid word or postion." << endl; cout << endl; return false;
 		if (word.direction == 'V') x_index++;
 		else if (word.direction == 'H') y_index++;
 	}
