@@ -128,7 +128,7 @@ bool Puzzle::check_word(puzzle_word word) {
 	int x_index = word.positionX - 'a';
 	int y_index = word.positionY - 'A';
 	if (word.direction == 'V') {
-		if (x_index + word.word_string.size() > size_x) return false;
+		if (x_index + word.word_string.size() > size_x +1) return false;
 	}
 	if (word.direction == 'H') {
 		if (y_index + word.word_string.size() > size_y) return false;
@@ -194,14 +194,15 @@ void Puzzle::fill() {
 Saves the puzzle into a given file.
 Param: ostream output_file - The file to output to. 
 */
-bool Puzzle::save(ostream output_file) {
+bool Puzzle::save(ostream* output_file) {
 	//needs to save the name of the dictionary folder.
 	//needs to save the board aspect as well. Adapt board show function
 	for (const puzzle_word puzzle_word : puzzle_word_vector) {
-		output_file << puzzle_word.positionX << puzzle_word.positionY << puzzle_word.direction << " " << puzzle_word.word_string;
+		*output_file << puzzle_word.positionX << puzzle_word.positionY << puzzle_word.direction << " " << puzzle_word.word_string;
 	}
+	return true;
 }
-Puzzle Puzzle::load(istream file, Dictionary* dictionary_object) {
+Puzzle Puzzle::load(istream* file, Dictionary* dictionary_object) {
 	string word;
 	int i = 0;
 	int size_x = 0;
@@ -210,7 +211,7 @@ Puzzle Puzzle::load(istream file, Dictionary* dictionary_object) {
 	bool getting_puzzle_words = false;
 	vector<puzzle_word> loaded_puzzle_words;
 	string dictionary_file;
-	for (string line; getline(file, line); )
+	for (string line; getline(*file, line); )
 	{
 		if (i == 0) dictionary_file = line;
 		else {

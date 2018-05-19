@@ -25,10 +25,11 @@ public:
 	bool check_word(puzzle_word word);
 	vector<puzzle_word> possible_words();
 	void fill();
-	bool save(ostream output_file);
-	static Puzzle load(istream inputput_file, Dictionary* dictionary_object);
+	bool save(ostream* output_file);
+	static Puzzle load(istream* inputput_file, Dictionary* dictionary_object);
 
 	vector<vector<char>> two_d_puzzle_vector;
+	ifstream file;
 
 private:
 	unsigned int size_x;
