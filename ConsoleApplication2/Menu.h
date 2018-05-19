@@ -16,8 +16,10 @@ public:
 
 	void Selection();
 	
-	void ask_position_and_word(Puzzle*);
-
+	void ask_position_and_word();
+	bool ask_puzzle_options();
+	ifstream get_input_file();
+	ofstream get_output_file();
 	bool get_dictionary();
 
 

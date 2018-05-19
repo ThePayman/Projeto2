@@ -23,9 +23,9 @@ public:
 	bool remove(puzzle_word word);
 	bool recreate_verify_2d_vector();
 	bool check_word(puzzle_word word);
-	vector<puzzle_word> possible_words(vector<string> dictionary_words);
+	vector<puzzle_word> possible_words();
 	void fill();
-	static void save(Puzzle puzzle_object, ostream output_file);
+	bool save(ostream output_file);
 	static Puzzle load(istream inputput_file, Dictionary* dictionary_object);
 
 	vector<vector<char>> two_d_puzzle_vector;
