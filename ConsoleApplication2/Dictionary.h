@@ -12,10 +12,10 @@ using namespace std;
 class Dictionary{
 
 public:
-	ifstream dictionary_file;
+	ifstream* dictionary_file;
 
 	//Default constructor
-	Dictionary(ifstream* dictionary_file);
+	Dictionary(ifstream* dictionary_file, string dictionary_file_name);
 
 	//Destructor
 	~Dictionary();

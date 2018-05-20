@@ -1,8 +1,10 @@
 #pragma once
 #include "string"
-#include "iostream"
+#include "fstream"
 #include "vector"
 #include "Dictionary.h"
+#include "Board.h"
+#include "Menu.h"
 
 using namespace std;
 
@@ -21,12 +23,13 @@ public:
 	bool insert(puzzle_word word);
 	bool insert_string(string puzzle_word_pos, string puzzle_word_string);
 	bool remove(puzzle_word word);
+	bool remove_string(string puzzle_word_pos, string puzzle_word_string);
 	bool recreate_verify_2d_vector();
 	bool check_word(puzzle_word word);
-	vector<puzzle_word> possible_words();
+	vector<string> possible_words(string puzzle_word_pos);
 	void fill();
-	bool save(ostream* output_file);
-	static Puzzle load(istream*v inputput_file, Dictionary* dictionary_object);
+	bool save(ofstream* output_file, Board* board);
+	static pair<Board*, Puzzle*> load(ifstream* inputput_file, Dictionary* dictionary_object);
 
 	vector<vector<char>> two_d_puzzle_vector;
 	ifstream file;
