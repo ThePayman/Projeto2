@@ -70,7 +70,7 @@ void Menu::Selection() {
 
 		if (!this->get_board_file()) return;
 		
-		pair<Board*, Puzzle*> board_puzzle_loaded_pair = Puzzle::load( board_file , dictionary);
+		std::pair<Board*, Puzzle*> board_puzzle_loaded_pair = Puzzle::load(board_file , dictionary);
 		board = board_puzzle_loaded_pair.first;
 		puzzle = board_puzzle_loaded_pair.second;
 		board->update_board(puzzle->two_d_puzzle_vector);
@@ -223,7 +223,7 @@ pair<int, int> Menu::get_board_size() {
 	cin >> line_size >> column_size;
 
 	while (line_size <= 0 || column_size <= 0) {
-		cout << "Invalid board size, please input new values that are greater than 0." << endl;
+		Menu::trow_error("Invalid board size, please input new values that are greater than 0.");
 		cin.clear();
 		cin >> line_size >> column_size;
 	}
