@@ -48,7 +48,8 @@ void Menu::Selection() {
 		//dictionary->read_dictionary();
 		if(!this->get_dictionary()) return;
 		//dictionary->usable_words_sort();
-		board = new Board();
+		pair<int,int> x_y_size_pair = this->get_board_size();
+		board = new Board(x_y_size_pair.first, x_y_size_pair.second);
 		board->create_board();
 		board->show_board();
 		
@@ -64,13 +65,19 @@ void Menu::Selection() {
 		cout << "----------------------------------------" << endl
 			<< "EDIT LOADED BOARD" << endl
 			<< "----------------------------------------" << endl;
+
 		if (!this->get_dictionary()) return;
 
 		if (!this->get_board_file()) return;
 		
-		Puzzle::load( board_file , dictionary);
-		
+		pair<Board*, Puzzle*> board_puzzle_loaded_pair = Puzzle::load( board_file , dictionary);
+		board = board_puzzle_loaded_pair.first;
+		puzzle = board_puzzle_loaded_pair.second;
+		board->update_board(puzzle->two_d_puzzle_vector);
+		board->show_board();
 
+		this->ask_position_and_word();
+		
 		return;
 	}
 	else if(option == "0"){
@@ -78,7 +85,7 @@ void Menu::Selection() {
 	}
 	else {
 		cout << endl;
-		cout << "Invalid input, please select a valid option." << endl;
+		Menu::trow_error("Invalid input, please select a valid option. Not a possible option.");
 		cout << endl;
 		this->Selection();
 	}
@@ -93,11 +100,11 @@ void Menu::ask_position_and_word(){
 		cout << "Position (LCD / CTRL-Z = stop)   ?" << endl;
 		cin >> position;
 		if (position.size() != 3) {
-			cout << "Invalid input, please input a valid position." << endl;
+			Menu::trow_error("Invalid input, please input a valid position. Incorrect length.");
 			this->ask_position_and_word();
 		}
 		if (!(('a' <= position[0] && position[0] <= 'z') && ('A' <= position[1] && position[1] <= 'Z') && (position[2] == 'V' || position[2] == 'H'))) {
-			cout << "Invalid input, please input a valid position." << endl;
+			Menu::trow_error("Invalid input, please input a valid position. Incorrect format.");
 			this->ask_position_and_word();
 		}
 		cout << "Word ( - = remove / ? = help)   ?" << endl;
@@ -106,7 +113,15 @@ void Menu::ask_position_and_word(){
 		for (const char word_char : word) {
 			toupper(word_char);
 		}
-		puzzle->insert_string(position, word);
+		if (word[0] == '-') puzzle->remove_string(position, word.substr(1,word.size() - 1));
+		else if (word[0] == '?') { 
+			vector<string> possible_words = puzzle->possible_words(position);
+			cout << "Possible words for position " << position << ": " << endl;
+			for (const string word : possible_words) {
+				cout << word << endl;
+			}
+		}
+		else puzzle->insert_string(position, word);
 		board->update_board(puzzle->two_d_puzzle_vector);
 		board->show_board();
 	}
@@ -131,7 +146,7 @@ bool Menu::ask_puzzle_options() {
 	if (option == "2") {
 		//Needs to use pointers
 		ofstream* save_file = get_output_file();
-		puzzle->save(save_file);
+		puzzle->save(save_file,board);
 	}
 	if (option == "0") {
 		return false;
@@ -183,7 +198,7 @@ bool Menu::get_dictionary() {
 		cout << "Invalid File" << endl;
 		return this->get_dictionary();
 	}
-	dictionary = new Dictionary(dictionary_file);
+	dictionary = new Dictionary(dictionary_file, dictionary_file_name);
 	return true;
 }
 
@@ -199,6 +214,39 @@ bool Menu::get_board_file() {
 	return true;
 }
 
+pair<int, int> Menu::get_board_size() {
+	int line_size;
+	int column_size;
 
+	cout <<
+		"What is the board size (lines and columns separated by a space)?" << endl;
+	cin >> line_size >> column_size;
+
+	while (line_size <= 0 || column_size <= 0) {
+		cout << "Invalid board size, please input new values that are greater than 0." << endl;
+		cin.clear();
+		cin >> line_size >> column_size;
+	}
+	pair<int, int> board_size (column_size, line_size);
+	return board_size;
+	
+}
+
+void Menu::trow_error(string error) {
+	cout << error << endl;
+}
+void Menu::trow_error(int error = 0) {
+	if (error == 0) {
+		cout << "An undefined error has occurred." << endl;
+	}
+	switch (error)
+	{
+	case 1:
+		cout << "Something went horribly wrong. This error should not happen." << endl;
+		break;
+	default:
+		break;
+	}
+}
 Menu::~Menu(){}
 

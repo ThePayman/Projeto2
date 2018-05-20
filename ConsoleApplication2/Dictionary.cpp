@@ -2,16 +2,18 @@
 #include "Dictionary.h"
 
 
-Dictionary::Dictionary(ifstream* dictionary_file) {
-	
-
+Dictionary::Dictionary(ifstream* file, string file_name) {
+	dictionary_file_name = file_name;
+	dictionary_file = file;
+	this->read_dictionary();
 }
 
 //The following function reads the dictionary file that is given to it and stores the usable words in a vector
 
 vector<string> Dictionary::read_dictionary() {
 	string word;
-	while (dictionary_file >> word) {
+	ifstream& file = *dictionary_file;
+	while (file >> word) {
 		string newWord = "";
 		bool ignore_word = false;
 		for (unsigned int i = 0; i < word.length(); i++) {
