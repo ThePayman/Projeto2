@@ -5,7 +5,7 @@
 #include "Puzzle.h"
 
 
-
+//Menu header and instructions
 Menu::Menu(){
 	cout << "CROSSWORDS PUZZLE CREATOR" << endl
 		<< "=========================================" << endl
@@ -99,11 +99,11 @@ void Menu::ask_position_and_word(){
 	while (!cin.eof()) {
 		cout << "Position (LCD / CTRL-Z = stop)   ?" << endl;
 		cin >> position;
-		if (position.size() != 3) {
+		if (position.size() != 3) {		//if to prevent invalid inputs
 			Menu::trow_error("Invalid input, please input a valid position. Incorrect length.");
 			this->ask_position_and_word();
 		}
-		if (!(('a' <= position[0] && position[0] <= 'z') && ('A' <= position[1] && position[1] <= 'Z') && (position[2] == 'V' || position[2] == 'H'))) {
+		if (!(('a' <= position[0] && position[0] <= 'z') && ('A' <= position[1] && position[1] <= 'Z') && (position[2] == 'V' || position[2] == 'H'))) {//if to prevent invalid inputs
 			Menu::trow_error("Invalid input, please input a valid position. Incorrect format.");
 			this->ask_position_and_word();
 		}
