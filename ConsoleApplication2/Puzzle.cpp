@@ -193,28 +193,6 @@ vector<string> Puzzle::possible_words(string puzzle_word_pos) {
 		selected_possible_words_vector = possible_words_vector;
 	}
 	return selected_possible_words_vector;
-	/*vector<puzzle_word> words;
-	while (words.size() < 10) {
-		int random_x = rand() % size_x - 1;
-		int random_y = rand() % size_y - 1;
-		int random_direction = rand() % 1;
-		if (isalpha(two_d_puzzle_vector[random_x][random_y])) {
-			char initial_letter = two_d_puzzle_vector[random_x][random_y];
-			for (const string dictionary_word : dictionary->usable_words) {
-				if (dictionary_word[0] == initial_letter) {
-					//Get a random word to test
-					string random_word = "";//
-					puzzle_word new_puzzle_word;
-					new_puzzle_word.positionX = random_x;
-					new_puzzle_word.positionY = random_y;
-					if (random_direction) new_puzzle_word.direction = 'H';
-					else random_direction = 'V';
-					if (check_word(new_puzzle_word)) words.push_back(new_puzzle_word);
-				}
-			}
-		}
-	}
-	return words;*/
 }
 
 /*

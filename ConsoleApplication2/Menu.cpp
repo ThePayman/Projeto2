@@ -50,7 +50,6 @@ void Menu::Selection() {
 		//dictionary->usable_words_sort();
 		pair<int,int> x_y_size_pair = this->get_board_size();
 		board = new Board(x_y_size_pair.first, x_y_size_pair.second);
-		board->create_board();
 		board->show_board();
 		
 		puzzle = new Puzzle(board->line_size, board->column_size, "", dictionary);
@@ -110,8 +109,8 @@ void Menu::ask_position_and_word(){
 		cout << "Word ( - = remove / ? = help)   ?" << endl;
 		cin >> word;
 		if (cin.eof()) continue;
-		for (const char word_char : word) {
-			toupper(word_char);
+		for (int i = 0; i < word.size(); i++) {
+			word[i] = toupper(word[i]);
 		}
 		if (word[0] == '-') puzzle->remove_string(position, word.substr(1,word.size() - 1));
 		else if (word[0] == '?') { 
@@ -143,15 +142,21 @@ bool Menu::ask_puzzle_options() {
 	cin >> option;
 	if (option == "1") {
 		this->ask_position_and_word();
+		return true;
 	}
 	if (option == "2") {
 		ofstream* save_file = get_output_file();
 		puzzle->save(save_file,board);
+		cout << "The incomplete board has been saved." << endl;
+		return true;
 	}
 	if (option == "3") {
 		ofstream* save_file = get_next_output_puzzle();
 		puzzle->fill();
+		board->update_board(puzzle->two_d_puzzle_vector);
 		puzzle->save(save_file, board);
+		cout << "The complete board has been saved." << endl;
+		return true;
 	}
 	if (option == "0") {
 		return false;

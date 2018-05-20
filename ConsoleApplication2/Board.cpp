@@ -74,8 +74,7 @@ Board::Board(int x_size, int y_size){
 }
 
 void Board::create_board() {
-
-	
+	Menu::trow_error("Deprecated. This function should not be called");
 }
 
 void Board::show_board() {
