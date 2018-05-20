@@ -157,7 +157,11 @@ bool Puzzle::check_word(puzzle_word word) {
 		if (word.direction == 'H') x_index++;
 		else if (word.direction == 'V') y_index++;
 	}
-	return true;
+	if (word.word_string == "#") return true;
+	for (const string dictionary_word : dictionary->usable_words) {
+		if (dictionary_word == word.word_string) return true;
+	}
+	return false;
 }
 
 /*
