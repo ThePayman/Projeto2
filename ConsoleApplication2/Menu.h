@@ -6,12 +6,11 @@
 #include "Dictionary.h"
 #include "Puzzle.h"
 #include "Board.h"
-#include "Menu.h"
 
 using namespace std;
 
-class Menu
-{
+
+class Menu {
 public:
 	Menu();
 
@@ -23,16 +22,19 @@ public:
 	ofstream *get_output_file();
 	bool get_dictionary();
 	bool get_board_file();
-	pair<int,int> get_board_size();
-	ifstream* board_file;
-	void static trow_error(string error);
-	void static trow_error(int error);
+	std::pair<int,int> get_board_size();
 
-	~Menu();
 
 	Puzzle* puzzle;
 	Board* board;
 	Dictionary* dictionary;
+
+	~Menu();
+
+	static void trow_error(string error);
+	static void trow_error(int error);
+
+	ifstream* board_file;
 
 private:
 	string option;

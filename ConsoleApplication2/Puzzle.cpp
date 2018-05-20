@@ -40,7 +40,7 @@ bool Puzzle::insert(puzzle_word word) {
 	int x_index = word.positionX - 'a';
 	int y_index = word.positionY - 'A';
 	if (!check_word(word)) {
-		Menu::trow_error("Word doesnt fit into the given position");
+		Puzzle::trow_error("Word doesnt fit into the given position");
 		return false;
 	}
 	vector<vector<char>> new_two_d_puzzle_vector = two_d_puzzle_vector;
@@ -56,7 +56,7 @@ bool Puzzle::insert(puzzle_word word) {
 		char selected_vector_position = new_two_d_puzzle_vector[x_index][y_index];
 
 		if (selected_vector_position != word.word_string[i] && selected_vector_position != '.') { 
-			Menu::trow_error(1);
+			Puzzle::trow_error(1);
 			return false;
 		}
 		else {
@@ -296,4 +296,21 @@ pair<Board*,Puzzle*> Puzzle::load(ifstream* file, Dictionary* dictionary_object)
 	Puzzle* new_puzzle = new Puzzle(size_x, size_y, "Puzzle", loaded_puzzle_words, dictionary_object);
 	pair<Board*, Puzzle*> board_puzzle_pair (board, new_puzzle);
 	return board_puzzle_pair;
+}
+
+void Puzzle::trow_error(string error) {
+	cout << error << endl;
+}
+void Puzzle::trow_error(int error = 0) {
+	if (error == 0) {
+		cout << "An undefined error has occurred." << endl;
+	}
+	switch (error)
+	{
+	case 1:
+		cout << "Something went horribly wrong. This error should not happen." << endl;
+		break;
+	default:
+		break;
+	}
 }

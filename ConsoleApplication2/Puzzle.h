@@ -4,10 +4,8 @@
 #include "vector"
 #include "Dictionary.h"
 #include "Board.h"
-#include "Menu.h"
 
 using namespace std;
-
 
 struct puzzle_word {
 	char positionX;
@@ -29,9 +27,13 @@ public:
 	vector<string> possible_words(string puzzle_word_pos);
 	void fill();
 	bool save(ofstream* output_file, Board* board);
-	static pair<Board*, Puzzle*> load(ifstream* inputput_file, Dictionary* dictionary_object);
+	static std::pair<Board*, Puzzle*> load(ifstream* inputput_file, Dictionary* dictionary_object);
+
+	static void trow_error(string error);
+	static void trow_error(int error);
 
 	vector<vector<char>> two_d_puzzle_vector;
+
 	ifstream file;
 
 private:
@@ -41,3 +43,4 @@ private:
 	vector<puzzle_word> puzzle_word_vector;
 	Dictionary* dictionary;
 };
+
