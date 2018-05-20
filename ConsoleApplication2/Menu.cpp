@@ -136,6 +136,7 @@ bool Menu::ask_puzzle_options() {
 	cout << "Choose from the following options:" << endl
 	<< "1 - Continue editing Puzzle" << endl
 	<< "2 - Save Puzzle" << endl
+	<< "3 - Finish and Save Puzzle" << endl
 	<< "0 - Exit" << endl
 	<< endl
 	<< "What is your option?" << endl;
@@ -144,9 +145,13 @@ bool Menu::ask_puzzle_options() {
 		this->ask_position_and_word();
 	}
 	if (option == "2") {
-		//Needs to use pointers
 		ofstream* save_file = get_output_file();
 		puzzle->save(save_file,board);
+	}
+	if (option == "3") {
+		ofstream* save_file = get_next_output_puzzle();
+		puzzle->fill();
+		puzzle->save(save_file, board);
 	}
 	if (option == "0") {
 		return false;
@@ -156,13 +161,13 @@ bool Menu::ask_puzzle_options() {
 /*
 	Loops until a valid input file is open.
 */
-ifstream Menu::get_input_file() {
+ifstream* Menu::get_input_file() {
 	string file_name;
 	cout << "What is the file name?" << endl;
 	cin >> file_name;
-	ifstream file;
-	file.open(file_name);
-	if (!file.is_open()) {
+	ifstream* file = new ifstream();
+	file->open(file_name);
+	if (!file->is_open()) {
 		cout << "Invalid File" << endl;
 		return this->get_input_file();
 	}
@@ -184,7 +189,26 @@ ofstream* Menu::get_output_file() {
 	}
 	return file;
 }
-#pragma endregion
+
+ofstream* Menu::get_next_output_puzzle() {
+	string file_location;
+	cout << "Where do you want to place the file?" << endl;
+	cin >> file_location;
+	if (file_location.back() != '/') file_location += '/';
+	int puzzle_output_file_int = 0;
+	string puzzle_output_file_name = "000";
+	while (true) {
+		puzzle_output_file_int++;
+		if(puzzle_output_file_int < 10) puzzle_output_file_name = "00"+to_string(puzzle_output_file_int);
+		else if(puzzle_output_file_int < 100) puzzle_output_file_name = "0"+to_string(puzzle_output_file_int);
+		else puzzle_output_file_name = to_string(puzzle_output_file_int);
+		ifstream f(file_location + puzzle_output_file_name + ".txt");
+		if (!f.good()) break;
+	}
+	ofstream* file = new ofstream();
+	file->open(file_location + puzzle_output_file_name + ".txt");
+	return file;
+}
 
 /*
 	Loops until a valid dictionary file is open and creates the dictionary object.

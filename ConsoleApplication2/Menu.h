@@ -18,8 +18,9 @@ public:
 	
 	void ask_position_and_word();
 	bool ask_puzzle_options();
-	ifstream get_input_file();
-	ofstream *get_output_file();
+	ifstream* get_input_file();
+	ofstream* get_output_file();
+	ofstream* get_next_output_puzzle();
 	bool get_dictionary();
 	bool get_board_file();
 	std::pair<int,int> get_board_size();

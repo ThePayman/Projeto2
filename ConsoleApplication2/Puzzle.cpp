@@ -221,8 +221,8 @@ void Puzzle::fill() {
 			if (two_d_puzzle_vector[x][y] == '.') {
 				two_d_puzzle_vector[x][y] = '#';
 				puzzle_word new_puzzle_word;
-				new_puzzle_word.positionY = y;
-				new_puzzle_word.positionX = x;
+				new_puzzle_word.positionX = x + 'a';
+				new_puzzle_word.positionY = y + 'A';
 				new_puzzle_word.direction = 'H';
 				new_puzzle_word.word_string = "#";
 				puzzle_word_vector.push_back(new_puzzle_word);
