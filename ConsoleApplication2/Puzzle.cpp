@@ -161,6 +161,7 @@ bool Puzzle::check_word(puzzle_word word) {
 	for (const string dictionary_word : dictionary->usable_words) {
 		if (dictionary_word == word.word_string) return true;
 	}
+	Puzzle::trow_error("Word doesnt exist on the Dictionary.");
 	return false;
 }
 
