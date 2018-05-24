@@ -1,0 +1,63 @@
+C:\Users\ThePayman\Desktop\Projeto2'19'5\Projeto2-master\synonyms_WINDOWS.txt
+
+   a b c d e f g h i 
+ A W O R L D # # # U 
+ B # # # # O # # # N 
+ C # # # # M # # # R 
+ D # # # K I L L # U 
+ E # # # # N # # # L 
+ F # H U M A N I T Y 
+ G # A # # N # # # # 
+ H # R # # C # # # # 
+ I # M # # E # # # # 
+
+aAH WORLD
+eAV DOMINANCE
+dDH KILL
+bFH HUMANITY
+bFV HARM
+iAV UNRULY
+aBH #
+aCH #
+aDH #
+aEH #
+aGH #
+aHH #
+aIH #
+bBH #
+bCH #
+bDH #
+cBH #
+cCH #
+cEH #
+cGH #
+cHH #
+cIH #
+dBH #
+dCH #
+dEH #
+dGH #
+dHH #
+dIH #
+fBH #
+fCH #
+fEH #
+fGH #
+fHH #
+fIH #
+gAH #
+gBH #
+gCH #
+gEH #
+gGH #
+gHH #
+gIH #
+hAH #
+hBH #
+hCH #
+hEH #
+hGH #
+hHH #
+hIH #
+iHH #
+iIH #
