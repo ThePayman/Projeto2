@@ -27,7 +27,7 @@ public:
 	unsigned int line_size, column_size;
 
 private:
-	
+
 	vector<vector<char>> board;
 };
 

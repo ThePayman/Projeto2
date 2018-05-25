@@ -52,8 +52,7 @@ void setcolor(unsigned int color) { HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE
 void setcolor(unsigned int color, unsigned int background_color) { HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE); if (background_color == BLACK) SetConsoleTextAttribute(hCon, color); else SetConsoleTextAttribute(hCon, color | BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED); }
 
 
-//Function used to create a board acording to the size inputed by the user
-Board::Board(int x_size, int y_size){
+Board::Board(int x_size, int y_size) {
 	column_size = x_size;
 	line_size = y_size;
 	for (int x = 0; x < column_size + 1; x++) {
@@ -75,18 +74,17 @@ Board::Board(int x_size, int y_size){
 }
 
 void Board::create_board() {
-
-	
+	Menu::trow_error("Deprecated. This function should not be called");
 }
 
-//Function to show the board
 void Board::show_board() {
-	for (unsigned int x = 0; x < board.size(); x++){
-		for (unsigned int y = 0; y < board[0].size(); y++){
-			if (x == 0) { setcolor(4); } //using the color red to show the letter line
-			if (y == 0) { setcolor(4); } //using the color red to show the letter column
-			if (x != 0 && y != 0) { setcolor(0, 7); } //showing all the other elements as black with light grey background
-			if (y == (board[0].size() - 1)) { cout << " " << board[x][y] << " "; } //exception for the last column to have another " " next to it
+
+	for (unsigned int x = 0; x < board.size(); x++) {
+		for (unsigned int y = 0; y < board[0].size(); y++) {
+			if (x == 0) { setcolor(4); }
+			if (y == 0) { setcolor(4); }
+			if (x != 0 && y != 0) { setcolor(0, 7); }
+			if (y == (board[0].size() - 1)) { cout << " " << board[x][y] << " "; }
 			else { cout << " " << board[x][y]; }
 		}
 		cout << endl;
@@ -94,7 +92,6 @@ void Board::show_board() {
 	}
 }
 
-//Function to save a board to a text file
 void Board::write_to_file(ofstream* output_file) {
 	ofstream& file = *output_file;
 	for (unsigned int x = 0; x < board.size(); x++) {
@@ -107,17 +104,16 @@ void Board::write_to_file(ofstream* output_file) {
 	}
 }
 
-//Function to update  the board vector with the new user inputed words
-bool Board::update_board(vector<vector<char>> two_d_vector){
-	for (unsigned int x = 0; x < two_d_vector.size(); x++){
+bool Board::update_board(vector<vector<char>> two_d_vector) {
+	for (unsigned int x = 0; x < two_d_vector.size(); x++) {
 		for (unsigned int y = 0; y < two_d_vector[0].size(); y++) {
 			board[1 + y][1 + x] = two_d_vector[x][y];
-			}
+		}
 	}
 	return true;
 }
 
-Board::~Board(){
+Board::~Board() {
 	//save the board and exit
 }
 

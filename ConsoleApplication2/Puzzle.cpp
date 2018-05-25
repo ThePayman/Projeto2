@@ -34,7 +34,7 @@ Puzzle::Puzzle(unsigned int set_size_x, unsigned int set_size_y, string set_name
 }
 /*
 Inserts an word into the puzzle's puzzle_word vector and two dimentional vector.
-Param: puzzle_word word - The instance of puzzle_word struct to be added to the puzzle. 
+Param: puzzle_word word - The instance of puzzle_word struct to be added to the puzzle.
 */
 bool Puzzle::insert(puzzle_word word) {
 	int x_index = word.positionX - 'a';
@@ -55,7 +55,7 @@ bool Puzzle::insert(puzzle_word word) {
 	for (int i = 0; i < word.word_string.size(); i++) {
 		char selected_vector_position = new_two_d_puzzle_vector[x_index][y_index];
 
-		if (selected_vector_position != word.word_string[i] && selected_vector_position != '.') { 
+		if (selected_vector_position != word.word_string[i] && selected_vector_position != '.') {
 			Puzzle::trow_error(1);
 			return false;
 		}
@@ -75,7 +75,7 @@ bool Puzzle::insert(puzzle_word word) {
 Inserts a word into the puzzle's puzzle_word vector and two dimentional vector.
 
 Param: string puzzle_word_pos - A string of lenght 3 containing the X, Y and Direction of the word to insert.
-	   string puzzle_word_pos - The string to insert.
+string puzzle_word_pos - The string to insert.
 */
 bool Puzzle::insert_string(string puzzle_word_pos, string puzzle_word_string) {
 	puzzle_word new_puzzle_word;
@@ -90,7 +90,7 @@ bool Puzzle::insert_string(string puzzle_word_pos, string puzzle_word_string) {
 
 /*
 Removes a puzzle_word from the puzzle's puzzle_word vector and the two dimentional vector.
-Param: puzzle_word word - The puzzle_word struct to be removed to the puzzle. 
+Param: puzzle_word word - The puzzle_word struct to be removed to the puzzle.
 */
 bool Puzzle::remove(puzzle_word word) {
 	for (int i = 0; i < puzzle_word_vector.size(); i++) {
@@ -140,7 +140,7 @@ bool Puzzle::check_word(puzzle_word word) {
 	unsigned int x_index = word.positionX - 'a';
 	unsigned int y_index = word.positionY - 'A';
 	if (word.direction == 'H') {
-		if (x_index + word.word_string.size() > size_x) { 
+		if (x_index + word.word_string.size() > size_x) {
 			return false;
 		}
 	}
@@ -161,6 +161,7 @@ bool Puzzle::check_word(puzzle_word word) {
 	for (const string dictionary_word : dictionary->usable_words) {
 		if (dictionary_word == word.word_string) return true;
 	}
+	Puzzle::trow_error("Word doesnt exist on the Dictionary.");
 	return false;
 }
 
@@ -186,34 +187,12 @@ vector<string> Puzzle::possible_words(string puzzle_word_pos) {
 			int index = rand() % possible_words_vector.size();
 			selected_possible_words_vector.push_back(possible_words_vector[index]);
 			possible_words_vector.erase(possible_words_vector.begin() + i);
-		} 
+		}
 	}
 	else {
 		selected_possible_words_vector = possible_words_vector;
 	}
 	return selected_possible_words_vector;
-	/*vector<puzzle_word> words;
-	while (words.size() < 10) {
-		int random_x = rand() % size_x - 1;
-		int random_y = rand() % size_y - 1;
-		int random_direction = rand() % 1;
-		if (isalpha(two_d_puzzle_vector[random_x][random_y])) {
-			char initial_letter = two_d_puzzle_vector[random_x][random_y];
-			for (const string dictionary_word : dictionary->usable_words) {
-				if (dictionary_word[0] == initial_letter) {
-					//Get a random word to test
-					string random_word = "";//
-					puzzle_word new_puzzle_word;
-					new_puzzle_word.positionX = random_x;
-					new_puzzle_word.positionY = random_y;
-					if (random_direction) new_puzzle_word.direction = 'H';
-					else random_direction = 'V';
-					if (check_word(new_puzzle_word)) words.push_back(new_puzzle_word);
-				}
-			}
-		}
-	}
-	return words;*/
 }
 
 /*
@@ -237,7 +216,7 @@ void Puzzle::fill() {
 
 /*
 Saves the puzzle into a given file.
-Param: ostream output_file - The file to output to. 
+Param: ostream output_file - The file to output to.
 */
 bool Puzzle::save(ofstream* output_file, Board* board) {
 	ofstream& file = *output_file;
@@ -251,7 +230,7 @@ bool Puzzle::save(ofstream* output_file, Board* board) {
 }
 
 
-pair<Board*,Puzzle*> Puzzle::load(ifstream* file, Dictionary* dictionary_object) {
+pair<Board*, Puzzle*> Puzzle::load(ifstream* file, Dictionary* dictionary_object) {
 	string word;
 	int i = 0;
 	int size_x = 0;
@@ -296,9 +275,9 @@ pair<Board*,Puzzle*> Puzzle::load(ifstream* file, Dictionary* dictionary_object)
 		i++;
 	}
 	size_y--;
-	Board* board = new Board(size_y,size_x);
+	Board* board = new Board(size_y, size_x);
 	Puzzle* new_puzzle = new Puzzle(size_x, size_y, "Puzzle", loaded_puzzle_words, dictionary_object);
-	pair<Board*, Puzzle*> board_puzzle_pair (board, new_puzzle);
+	pair<Board*, Puzzle*> board_puzzle_pair(board, new_puzzle);
 	return board_puzzle_pair;
 }
 

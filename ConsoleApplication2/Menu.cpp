@@ -5,8 +5,8 @@
 #include "Puzzle.h"
 
 
-//Menu header and instructions
-Menu::Menu(){
+
+Menu::Menu() {
 	cout << "CROSSWORDS PUZZLE CREATOR" << endl
 		<< "=========================================" << endl
 		<< endl
@@ -28,7 +28,7 @@ Menu::Menu(){
 		<< endl;
 }
 /*
-	Main Menu function. Gives general options to the user.
+Main Menu function. Gives general options to the user.
 */
 void Menu::Selection() {
 	cout << "Choose from the following options:" << endl
@@ -38,30 +38,29 @@ void Menu::Selection() {
 		<< endl
 		<< "What is your option?" << endl;
 	cin >> option;
-	
+
 	if (option == "1") {
 		cout << "----------------------------------------" << endl
 			<< "CREATE BOARD" << endl
 			<< "----------------------------------------" << endl;
-		
-		
+
+
 		//dictionary->read_dictionary();
-		if(!this->get_dictionary()) return;
+		if (!this->get_dictionary()) return;
 		//dictionary->usable_words_sort();
-		pair<int,int> x_y_size_pair = this->get_board_size();
+		pair<int, int> x_y_size_pair = this->get_board_size();
 		board = new Board(x_y_size_pair.first, x_y_size_pair.second);
-		board->create_board();
 		board->show_board();
-		
+
 		puzzle = new Puzzle(board->line_size, board->column_size, "", dictionary);
 
 		this->ask_position_and_word();
-		
+
 		return;
-		
+
 
 	}
-	else if(option == "2") {
+	else if (option == "2") {
 		cout << "----------------------------------------" << endl
 			<< "EDIT LOADED BOARD" << endl
 			<< "----------------------------------------" << endl;
@@ -69,18 +68,18 @@ void Menu::Selection() {
 		if (!this->get_dictionary()) return;
 
 		if (!this->get_board_file()) return;
-		
-		std::pair<Board*, Puzzle*> board_puzzle_loaded_pair = Puzzle::load(board_file , dictionary);
+
+		std::pair<Board*, Puzzle*> board_puzzle_loaded_pair = Puzzle::load(board_file, dictionary);
 		board = board_puzzle_loaded_pair.first;
 		puzzle = board_puzzle_loaded_pair.second;
 		board->update_board(puzzle->two_d_puzzle_vector);
 		board->show_board();
 
 		this->ask_position_and_word();
-		
+
 		return;
 	}
-	else if(option == "0"){
+	else if (option == "0") {
 		this->~Menu();
 	}
 	else {
@@ -92,29 +91,29 @@ void Menu::Selection() {
 
 }
 /*
-	Asks a position and word to insert into a position on the puzzle. Loops until EOF of Cin.
+Asks a position and word to insert into a position on the puzzle. Loops until EOF of Cin.
 */
-void Menu::ask_position_and_word(){
+void Menu::ask_position_and_word() {
 	string position = "";
 	while (!cin.eof()) {
 		cout << "Position (LCD / CTRL-Z = stop)   ?" << endl;
 		cin >> position;
-		if (position.size() != 3) {		//if to prevent invalid inputs
+		if (position.size() != 3) {
 			Menu::trow_error("Invalid input, please input a valid position. Incorrect length.");
 			this->ask_position_and_word();
 		}
-		if (!(('a' <= position[0] && position[0] <= 'z') && ('A' <= position[1] && position[1] <= 'Z') && (position[2] == 'V' || position[2] == 'H'))) {//if to prevent invalid inputs
+		if (!(('a' <= position[0] && position[0] <= 'z') && ('A' <= position[1] && position[1] <= 'Z') && (position[2] == 'V' || position[2] == 'H'))) {
 			Menu::trow_error("Invalid input, please input a valid position. Incorrect format.");
 			this->ask_position_and_word();
 		}
 		cout << "Word ( - = remove / ? = help)   ?" << endl;
 		cin >> word;
 		if (cin.eof()) continue;
-		for (const char word_char : word) {
-			toupper(word_char);
+		for (int i = 0; i < word.size(); i++) {
+			word[i] = toupper(word[i]);
 		}
-		if (word[0] == '-') puzzle->remove_string(position, word.substr(1,word.size() - 1));
-		else if (word[0] == '?') { 
+		if (word[0] == '-') puzzle->remove_string(position, word.substr(1, word.size() - 1));
+		else if (word[0] == '?') {
 			vector<string> possible_words = puzzle->possible_words(position);
 			cout << "Possible words for position " << position << ": " << endl;
 			for (const string word : possible_words) {
@@ -130,28 +129,34 @@ void Menu::ask_position_and_word(){
 }
 
 /*
-	Puzzle Menu function. Gives options especific to a puzzle to the user.
+Puzzle Menu function. Gives options especific to a puzzle to the user.
 */
 bool Menu::ask_puzzle_options() {
 	cout << "Choose from the following options:" << endl
-	<< "1 - Continue editing Puzzle" << endl
-	<< "2 - Save Puzzle" << endl
-	<< "3 - Finish and Save Puzzle" << endl
-	<< "0 - Exit" << endl
-	<< endl
-	<< "What is your option?" << endl;
+		<< "1 - Continue editing Puzzle" << endl
+		<< "2 - Save Puzzle" << endl
+		<< "3 - Finish and Save Puzzle" << endl
+		<< "0 - Exit" << endl
+		<< endl
+		<< "What is your option?" << endl;
 	cin >> option;
 	if (option == "1") {
 		this->ask_position_and_word();
+		return true;
 	}
 	if (option == "2") {
 		ofstream* save_file = get_output_file();
-		puzzle->save(save_file,board);
+		puzzle->save(save_file, board);
+		cout << "The incomplete board has been saved." << endl;
+		return true;
 	}
 	if (option == "3") {
 		ofstream* save_file = get_next_output_puzzle();
 		puzzle->fill();
+		board->update_board(puzzle->two_d_puzzle_vector);
 		puzzle->save(save_file, board);
+		cout << "The complete board has been saved." << endl;
+		return true;
 	}
 	if (option == "0") {
 		return false;
@@ -159,7 +164,7 @@ bool Menu::ask_puzzle_options() {
 	return true;
 }
 /*
-	Loops until a valid input file is open.
+Loops until a valid input file is open.
 */
 ifstream* Menu::get_input_file() {
 	string file_name;
@@ -175,7 +180,7 @@ ifstream* Menu::get_input_file() {
 }
 
 /*
-	Loops until a valid output file is open.
+Loops until a valid output file is open.
 */
 ofstream* Menu::get_output_file() {
 	string file_name;
@@ -199,8 +204,8 @@ ofstream* Menu::get_next_output_puzzle() {
 	string puzzle_output_file_name = "000";
 	while (true) {
 		puzzle_output_file_int++;
-		if(puzzle_output_file_int < 10) puzzle_output_file_name = "00"+to_string(puzzle_output_file_int);
-		else if(puzzle_output_file_int < 100) puzzle_output_file_name = "0"+to_string(puzzle_output_file_int);
+		if (puzzle_output_file_int < 10) puzzle_output_file_name = "00" + to_string(puzzle_output_file_int);
+		else if (puzzle_output_file_int < 100) puzzle_output_file_name = "0" + to_string(puzzle_output_file_int);
 		else puzzle_output_file_name = to_string(puzzle_output_file_int);
 		ifstream f(file_location + puzzle_output_file_name + ".txt");
 		if (!f.good()) break;
@@ -211,7 +216,7 @@ ofstream* Menu::get_next_output_puzzle() {
 }
 
 /*
-	Loops until a valid dictionary file is open and creates the dictionary object.
+Loops until a valid dictionary file is open and creates the dictionary object.
 */
 bool Menu::get_dictionary() {
 	cout << "What is the dictionary file name?" << endl;
@@ -251,9 +256,9 @@ pair<int, int> Menu::get_board_size() {
 		cin.clear();
 		cin >> line_size >> column_size;
 	}
-	pair<int, int> board_size (column_size, line_size);
+	pair<int, int> board_size(column_size, line_size);
 	return board_size;
-	
+
 }
 
 void Menu::trow_error(string error) {
@@ -272,5 +277,4 @@ void Menu::trow_error(int error = 0) {
 		break;
 	}
 }
-Menu::~Menu(){}
-
+Menu::~Menu() {}
